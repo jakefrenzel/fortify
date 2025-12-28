@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.simplejwt',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +102,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom Authentication Class
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'fortify.authentication.CustomAuthentication',
+    ),
+}
+
+# JWT Configuration
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens. AccessToken',),
+}
+
+# Cookie settings for JWT
+JWT_COOKIE_SECURE = False  # Set to False in development if not using HTTPS
+JWT_COOKIE_HTTP_ONLY = True
+JWT_COOKIE_SAMESITE = 'Lax'  # or 'Strict' depending on your needs
+JWT_COOKIE_ACCESS_TOKEN_NAME = 'access_token'
+JWT_COOKIE_REFRESH_TOKEN_NAME = 'refresh_token'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
