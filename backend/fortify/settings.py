@@ -102,10 +102,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Custom Authentication Class
+# DRF & Custom Authentication Class
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'fortify.authentication.CustomAuthentication',
+        'authentication.authentication.CustomAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -114,9 +117,10 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    'BLACKLIST_AFTER_ROTATION':  True,
+    'UPDATE_LAST_LOGIN':  True,
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens. AccessToken',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
 # Cookie settings for JWT
@@ -125,6 +129,23 @@ JWT_COOKIE_HTTP_ONLY = True
 JWT_COOKIE_SAMESITE = 'Lax'  # or 'Strict' depending on your needs
 JWT_COOKIE_ACCESS_TOKEN_NAME = 'access_token'
 JWT_COOKIE_REFRESH_TOKEN_NAME = 'refresh_token'
+
+# Logging settings
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers':  False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'authentication': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
