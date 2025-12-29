@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.simplejwt',
-    'auth',
+    'rest_framework_simplejwt',
+    'authentication',
     'accounts',
 ]
 
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'template.urls'
+ROOT_URLCONF = 'fortify.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'template.wsgi.application'
+WSGI_APPLICATION = 'fortify.wsgi.application'
 
 
 # Database
@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # DRF & Custom Authentication Class
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'authentication.authentication.CustomAuthentication',
+        'fortify.jwt_auth.CustomAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
