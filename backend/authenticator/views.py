@@ -7,6 +7,11 @@ from rest_framework_simplejwt.exceptions import TokenError
 from django.contrib.auth import authenticate
 from django.conf import settings
 
+# CSRF token import
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+
 # Create your views here.
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -112,3 +117,8 @@ class RefreshTokenView(APIView):
                 {'error': 'Invalid or expired refresh token.'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+        
+@require_http_methods(["GET"])
+def csrf_token_view(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
