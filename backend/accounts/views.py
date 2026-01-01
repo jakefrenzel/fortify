@@ -10,9 +10,7 @@ class CurrentUserView(APIView):
         user = request.user
 
         return Response({
-            'user': {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email,
-            }
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
         })

@@ -56,7 +56,24 @@ axiosInstance.interceptors.request.use(
             );
         }
         
-        // You can add authorization headers or other custom headers here
+        const unsafeMethods = ['post', 'put', 'patch', 'delete'];
+        const method = config.method?.toLowerCase();
+
+        if (method && unsafeMethods.includes(method)) {
+            const csrfToken = getCsrfTokenFromCookie();
+
+            if (csrfToken) {
+                config.headers['X-CSRFToken'] = csrfToken;
+
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('🔐 CSRF token attached to request headers');
+                }
+
+            } else {
+                console.warn('⚠️ CSRF token not found in cookies');
+            }
+        }
+
         return config;
     },
     (error: AxiosError) => {
@@ -155,7 +172,7 @@ axiosInstance.interceptors.response.use(
 
                 // Redirect to login
                 if (typeof window !== 'undefined') {
-                    window.location.href = '/acccounts/login';
+                    window.location.href = '/accounts/login';
                 }
 
                 return Promise.reject(refreshError);
