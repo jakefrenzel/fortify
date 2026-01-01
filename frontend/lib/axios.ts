@@ -29,7 +29,7 @@ export const initializeCsrfToken = async (): Promise<void> => {
     });
 
     console.log('🔐 CSRF token initialized');
-    
+
   } catch (error) {
     console.error('Failed to initialize CSRF token:', error);
   }
@@ -190,6 +190,28 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export const getErrorMessage = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    const errorData = error.response?.data as { error?:  string; detail?: string };
+    return (
+      errorData?.error ||
+      errorData?.detail ||
+      error.message ||
+      'An unexpected error occurred'
+    );
+  }
+  
+  if (error instanceof Error) {
+    return error.message;
+  }
+  
+  return 'An unexpected error occurred';
+};
+
+export const isErrorStatus = (error: unknown, status: number): boolean => {
+  return axios.isAxiosError(error) && error.response?.status === status;
+};
 
 export default axiosInstance;
 
