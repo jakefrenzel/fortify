@@ -1,0 +1,61 @@
+import axiosInstance, { getErrorMessage } from "@/lib/axios";
+import { AuthResponse, LoginCredentials, User } from "@/types/auth";
+
+// Authentication API methods
+export const authAPI = {
+
+    // Login user
+    async login(credentials: LoginCredentials): Promise<AuthResponse> {
+        try {
+            const { data } = await axiosInstance.post<AuthResponse>(
+                '/accounts/auth/login/',
+                credentials
+            );
+
+        return data;
+
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
+        }
+    },
+
+
+    // Logout user
+    async logout(): Promise<void> {
+        try {
+
+            await axiosInstance.post('/accounts/auth/logout/');
+
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
+        }
+    },
+
+
+    // Refresh access token
+    async refreshToken(): Promise<void> {
+        try {
+
+            await axiosInstance.post('/accounts/auth/refresh/');
+
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
+        }
+    },
+
+    // Get current user
+    async getCurrentUser(): Promise<User> {
+        try {
+
+            const { data } = await axiosInstance.get<User>('/api/auth/me/');
+            return data;
+
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
+        }
+    },
+};
+
+export const userAPI = {
+    // Fetch user profile, or whatever user-related data you need
+}
