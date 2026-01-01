@@ -8,7 +8,7 @@ export const authAPI = {
     async login(credentials: LoginCredentials): Promise<AuthResponse> {
         try {
             const { data } = await axiosInstance.post<AuthResponse>(
-                '/accounts/auth/login/',
+                '/auth/login/',
                 credentials
             );
 
@@ -24,7 +24,7 @@ export const authAPI = {
     async logout(): Promise<void> {
         try {
 
-            await axiosInstance.post('/accounts/auth/logout/');
+            await axiosInstance.post('/auth/logout/');
 
         } catch (error) {
             throw new Error(getErrorMessage(error));
@@ -36,7 +36,7 @@ export const authAPI = {
     async refreshToken(): Promise<void> {
         try {
 
-            await axiosInstance.post('/accounts/auth/refresh/');
+            await axiosInstance.post('/auth/refresh/');
 
         } catch (error) {
             throw new Error(getErrorMessage(error));
@@ -47,7 +47,7 @@ export const authAPI = {
     async getCurrentUser(): Promise<User> {
         try {
 
-            const { data } = await axiosInstance.get<User>('/api/auth/me/');
+            const { data } = await axiosInstance.get<User>('/accounts/current/');
             return data;
 
         } catch (error) {

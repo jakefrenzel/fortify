@@ -24,7 +24,7 @@ const getCsrfTokenFromCookie = (): string | null => {
 export const initializeCsrfToken = async (): Promise<void> => {
   try {
 
-    await axios.get(`${API_BASE_URL}/api/auth/csrf/`, {
+    await axios.get(`${API_BASE_URL}/auth/csrf/`, {
       withCredentials: true,
     });
 
@@ -114,7 +114,7 @@ axiosInstance.interceptors.response.use(
 
         if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
 
-            const skipRefreshUrls = ['/accounts/auth/login/', '/accounts/auth/register/', '/accounts/auth/refresh/'];
+            const skipRefreshUrls = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
             const allowedSkipRefresh = skipRefreshUrls.some(url => originalRequest.url?.includes(url));
 
             if (allowedSkipRefresh) {
@@ -135,7 +135,7 @@ axiosInstance.interceptors.response.use(
 
             try {
                 // Attempt to refresh the token
-                await axiosInstance.post('/accounts/auth/refresh/');
+                await axiosInstance.post('/auth/refresh/');
 
                 console.log('🔄 Token refreshed successfully');
 
@@ -155,7 +155,7 @@ axiosInstance.interceptors.response.use(
 
                 // Redirect to login
                 if (typeof window !== 'undefined') {
-                    window.location.href = '/accounts/login';
+                    window.location.href = '/acccounts/login';
                 }
 
                 return Promise.reject(refreshError);
