@@ -119,9 +119,9 @@ export default function LoginPage() {
 
   return (
     <main className={styles.container}>
-      <div className={styles.login_container}>
+        <div className={styles.login_container}>
 
-        {/* CrownWynn logo */}
+        {/* Company logo */}
         <Image
             src="/assets/crown.png"
             alt="Crown currency icon"
@@ -139,44 +139,49 @@ export default function LoginPage() {
 
         {/* Login form */}
         <form className={styles.login_form} onSubmit={handleSubmit}>
+
+            {/* Username field */}
             <div className={styles.label_with_counter}>
-              <label className={styles.label} htmlFor="username">Username</label>
-              <span className={styles.character_counter}>{username.length}/20</span>
+                <label className={styles.label} htmlFor="username">Username</label>
+                <span className={styles.character_counter}>{username.length}/20</span>
             </div>
             <input 
-              className={styles.input} 
-              type="text" 
-              name="username" 
-              placeholder="Username..." 
-              value={username}
-              onChange={handleUsernameChange}
-              onBlur={handleUsernameBlur}
-              pattern="[a-zA-Z][a-zA-Z0-9_]{2,19}"
-              title="Username must be 3-20 characters, start with a letter, and contain only letters, numbers, and underscores"
-              minLength={3}
-              maxLength={20}
-              required 
+                className={styles.input} 
+                type="text" 
+                name="username" 
+                placeholder="Username..." 
+                value={username}
+                onChange={handleUsernameChange}
+                onBlur={handleUsernameBlur}
+                pattern="[a-zA-Z][a-zA-Z0-9_]{2,19}"
+                title="Username must be 3-20 characters, start with a letter, and contain only letters, numbers, and underscores"
+                minLength={3}
+                maxLength={20}
+                required 
             />
+
+            {/* Password field */}
             <label className={`${styles.label} ${styles.spacing}`} htmlFor="password">Password</label>
             <div className={styles.password_wrapper}>
-              <input 
-                className={styles.input} 
-                type={showPassword ? "text" : "password"}
-                name="password" 
-                placeholder="Password..."
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required />
-              <button
-                type="button"
-                className={styles.eye_button}
-                onMouseDown={() => setShowPassword(true)}
-                onMouseUp={() => setShowPassword(false)}
-                onMouseLeave={() => setShowPassword(false)}
-                onTouchStart={() => setShowPassword(true)}
-                onTouchEnd={() => setShowPassword(false)}
-                aria-label="Toggle password visibility"
-              >
+                <input 
+                    className={styles.input} 
+                    type={showPassword ? "text" : "password"}
+                    name="password" 
+                    placeholder="Password..."
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required 
+                />
+                <button
+                    type="button"
+                    className={styles.eye_button}
+                    onMouseDown={() => setShowPassword(true)}
+                    onMouseUp={() => setShowPassword(false)}
+                    onMouseLeave={() => setShowPassword(false)}
+                    onTouchStart={() => setShowPassword(true)}
+                    onTouchEnd={() => setShowPassword(false)}
+                    aria-label="Toggle password visibility"
+                >
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                     <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
@@ -192,19 +197,20 @@ export default function LoginPage() {
               </button>
             </div>
             
-            {/* Reserved space for messages to prevent layout shift */}
+            {/* Reserved space for error messages*/}
             <div className={styles.message_container}>
-              {usernameError && <div className={styles.error_message}>{usernameError}</div>}
-              {loading && <div className={styles.loading_message}>Signing in...</div>}
-              {error && <div className={styles.error_message}>{error}</div>}
-              {success && <div className={styles.success_message}>{success}</div>}
+                {usernameError && <div className={styles.error_message}>{usernameError}</div>}
+                {loading && <div className={styles.loading_message}>Signing in...</div>}
+                {error && <div className={styles.error_message}>{error}</div>}
+                {success && <div className={styles.success_message}>{success}</div>}
             </div>
 
             <button className={styles.submit} type="submit" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+                {loading ? "Signing in..." : "Sign in"}
             </button>
         </form>
 
+        {/* Link to the registration page */}
         <div className={styles.register_link_container}>
           <p className={styles.register_text}>
             Don't have an account?{" "}

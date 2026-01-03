@@ -217,7 +217,7 @@ export default function RegisterPage() {
     <main className={styles.container}>
       <div className={styles.login_container}>
 
-        {/* CrownWynn logo */}
+        {/* Company logo */}
         <Image
             src="/assets/crown.png"
             alt="Crown currency icon"
@@ -235,6 +235,8 @@ export default function RegisterPage() {
 
         {/* Login form */}
         <form className={styles.login_form} onSubmit={handleSubmit}>
+
+            {/* Username field */}
             <div className={styles.label_with_counter}>
               <label className={styles.label} htmlFor="username">Username</label>
               <span className={styles.character_counter}>{username.length}/20</span>
@@ -250,6 +252,7 @@ export default function RegisterPage() {
               required 
             />
             
+            {/* Password field */}
             <label className={`${styles.label} ${styles.spacing}`} htmlFor="password">Password</label>
             <div className={styles.password_wrapper}>
               <input 
@@ -286,6 +289,7 @@ export default function RegisterPage() {
               </button>
             </div>
             
+            {/* Password strength indicator */}
             {showStrengthIndicator && passwordStrength && (
               <div className={`${styles.password_strength} ${isExiting ? styles.password_strength_exit : ''}`}>
                 <div className={styles.strength_label}>Password Strength: <span style={{ color: passwordStrength.color }}>{passwordStrength.label}</span></div>
@@ -304,6 +308,7 @@ export default function RegisterPage() {
               </div>
             )}
             
+            {/* Confirm Password field */}
             <label className={`${styles.label} ${styles.spacing}`} htmlFor="confirmPassword">Confirm Password</label>
             <div className={styles.password_wrapper}>
               <input 
@@ -353,6 +358,7 @@ export default function RegisterPage() {
             </button>
         </form>
 
+        {/* Link to the login page */}
         <div className={styles.register_link_container}>
           <p className={styles.register_text}>
             Already have an account?{" "}
