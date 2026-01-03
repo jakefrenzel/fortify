@@ -131,7 +131,7 @@ axiosInstance.interceptors.response.use(
 
         if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
 
-            const skipRefreshUrls = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
+            const skipRefreshUrls = ['/auth/login/', '/auth/register/', '/auth/refresh/', '/accounts/current/'];
             const allowedSkipRefresh = skipRefreshUrls.some(url => originalRequest.url?.includes(url));
 
             if (allowedSkipRefresh) {
