@@ -10,6 +10,7 @@ import Link from "next/link";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -209,7 +210,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-        await register(username, password);
+        await register(username, email, password);
 
         setSuccess("Registration successful! Redirecting...");
 
@@ -264,6 +265,22 @@ export default function RegisterPage() {
               required 
             />
             
+            {/* Email field */}
+            <div className={styles.label_with_counter_email}>
+              <label className={styles.label} htmlFor="email">Email</label>
+              <span className={styles.character_counter}>{email.length}/50</span>
+            </div>
+            <input 
+              className={styles.input} 
+              type="text" 
+              name="email" 
+              placeholder="Email..." 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              maxLength={50}
+              required
+            />
+
             {/* Password field */}
             <label className={`${styles.label} ${styles.spacing}`} htmlFor="password">Password</label>
             <div className={styles.password_wrapper}>

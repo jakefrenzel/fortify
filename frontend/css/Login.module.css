@@ -189,6 +189,13 @@
     margin-top: var(--margin-xs);
 }
 
+.label_with_counter_email {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.25rem;
+}
+
 .character_counter {
     font-size: 0.75rem;
     color: #6b7280;
