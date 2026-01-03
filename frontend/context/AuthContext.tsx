@@ -49,6 +49,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const register = async (username: string, password: string) => {
+        try {
+            setError(null);
+            setLoading(true);
+
+            const response = await authAPI.register({ username, password });
+
+            if (response.user) {
+                setUser(response.user);
+            }
+        }
+        catch (err: any) {
+            setError(err.message);
+            throw err; // Re-throw so components can handle it
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Logout user
     const logout = async () => {
         try {
@@ -69,6 +88,7 @@ const value: AuthContextType = {
     error,
     login,
     logout,
+    register,
     isAuthenticated: !!user,
 };
 

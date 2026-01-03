@@ -1,5 +1,5 @@
 import axiosInstance, { getErrorMessage } from "@/lib/axios";
-import { AuthResponse, LoginCredentials, User } from "@/types/auth";
+import { AuthResponse, LoginCredentials, RegisterCredentials, User } from "@/types/auth";
 
 // Authentication API methods
 export const authAPI = {
@@ -13,6 +13,22 @@ export const authAPI = {
             );
 
         return data;
+
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
+        }
+    },
+
+
+    // Register user
+    async register(credentials: RegisterCredentials): Promise<AuthResponse> {
+        try {
+            const { data } = await axiosInstance.post<AuthResponse>(
+                '/auth/register/',
+                credentials
+            );
+
+            return data;
 
         } catch (error) {
             throw new Error(getErrorMessage(error));
