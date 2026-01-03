@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import axiosInstance from "@/lib/axios";
 
 import styles from "@/css/Login.module.css";
 import Image from "next/image";
@@ -31,7 +31,14 @@ export default function RegisterPage() {
   const [isUsernameErrorExiting, setIsUsernameErrorExiting] = useState(false);
   const [isPasswordErrorExiting, setIsPasswordErrorExiting] = useState(false);
 
+  const { register, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/"); // Redirect to home if already logged in
+    }
+  }, [isAuthenticated, router]);
 
   // Username validation: 3-20 characters, alphanumeric and underscores only, must start with a letter
   const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{2,19}$/;
@@ -202,9 +209,20 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // Make registration request
+        await register(username, password);
+
+        setSuccess("Registration successful! Redirecting...");
+
+        setTimeout(() => {
+            router.push('/accounts/login')
+        }, 2000);
     }
-      
+    catch (err: any) {
+        setError(err.message || "Registration failed. Please try again.");
+    }
+    finally {
+        setLoading(false);
+    }
   };
 
   return (
@@ -356,7 +374,7 @@ export default function RegisterPage() {
         <div className={styles.register_link_container}>
           <p className={styles.register_text}>
             Already have an account?{" "}
-            <Link href="/auth/login" className={styles.register_link}>
+            <Link href="/accounts/login" className={styles.register_link}>
               Sign in
             </Link>
           </p>

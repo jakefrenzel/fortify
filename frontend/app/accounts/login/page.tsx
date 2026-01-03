@@ -211,7 +211,7 @@ export default function LoginPage() {
         <div className={styles.register_link_container}>
           <p className={styles.register_text}>
             Don't have an account?{" "}
-            <Link href="/auth/register" className={styles.register_link}>
+            <Link href="/accounts/register" className={styles.register_link}>
               Sign up
             </Link>
           </p>
