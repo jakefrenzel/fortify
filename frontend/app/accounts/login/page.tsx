@@ -1,37 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axiosInstance from "@/lib/axiosInstance";
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation";
+
+import styles from "@/css/Login.module.css";
+import Image from "next/image";
 import Link from "next/link";
 
-import Image from "next/image";
-import styles from "@/css/Login.module.css";
-
-export async function login(username: string, password: string) {
-  try {
-    // ✅ Hit your cookie-based login endpoint
-    await axiosInstance.post("/api/login/", { username, password });
-
-    // ✅ Immediately fetch CSRF cookie after successful login
-    await axiosInstance.get("/api/csrf/");
-    console.log("CSRF cookie set!");
-
-    return true;
-  } catch (error) {
-    console.error("Login failed:", error);
-    return false;
-  }
-}
-
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [usernameError, setUsernameError] = useState("");
-  const [usernameTouched, setUsernameTouched] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [usernameError, setUsernameError] = useState("");
+    const [usernameTouched, setUsernameTouched] = useState(false);
+
+    const { login, isAuthenticated } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+      if (isAuthenticated) {
+        router.push("/"); // Redirect to home if already logged in
+      }
+    }, [isAuthenticated, router]);
 
   // Username validation: 3-20 characters, alphanumeric and underscores only, must start with a letter
   const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{2,19}$/;
@@ -104,16 +98,19 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    const loginSuccess = await login(username, password);
-    setLoading(false);
-    
-    if (!loginSuccess) {
-      setError("Invalid username or password");
-    } else {
-      setSuccess("Login successful! Redirecting...");
-      // ✅ Brief delay to show success message before redirect
-      window.location.href = "/";
-      
+    try {
+        await login(username, password);
+
+        setSuccess("Login successful! Redirecting...");
+
+        setTimeout(() => {
+            router.push('/')
+        }, 1000);
+    }
+    catch (err: any) {
+        setError(err.message || "Invalid username or password.");
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -123,7 +120,7 @@ export default function LoginPage() {
 
         {/* Company logo */}
         <Image
-            src="/assets/crown.png"
+            src="/logo.png"
             alt="Crown currency icon"
             className={styles.gemstoneImage}
             width={32}

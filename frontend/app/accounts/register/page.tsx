@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import axiosInstance from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
+import axiosInstance from "@/lib/axios";
+
+import styles from "@/css/Login.module.css";
+import Image from "next/image";
 import Link from "next/link";
 
-import Image from "next/image";
-import styles from "@/css/Login.module.css";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -28,6 +30,8 @@ export default function RegisterPage() {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [isUsernameErrorExiting, setIsUsernameErrorExiting] = useState(false);
   const [isPasswordErrorExiting, setIsPasswordErrorExiting] = useState(false);
+
+  const router = useRouter();
 
   // Username validation: 3-20 characters, alphanumeric and underscores only, must start with a letter
   const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{2,19}$/;
@@ -198,19 +202,9 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const res = await axiosInstance.post("/api/register/", {
-        username,
-        password,
-      });
-      setLoading(false);
-      setSuccess("Registered successfully! You can now log in.");
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1000);
-    } catch (error: any) {
-      setLoading(false);
-      setError(error.response?.data?.error || "Something went wrong.");
+      // Make registration request
     }
+      
   };
 
   return (
@@ -219,7 +213,7 @@ export default function RegisterPage() {
 
         {/* Company logo */}
         <Image
-            src="/assets/crown.png"
+            src="/logo.png"
             alt="Crown currency icon"
             className={styles.crown_image}
             width={32}
